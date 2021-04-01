@@ -1,5 +1,6 @@
 package com.dion.roommvp.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +19,7 @@ class EditActivity : AppCompatActivity(), EditContract.View {
     lateinit var binding: ActivityEditBinding
     lateinit var mPresenter: EditContract.Presenter
     var dataList: ArrayList<Biodata> = arrayListOf()
-    lateinit var jekel: String
+     var jekel =""
     var bio = Biodata()
     val nik by lazy {
         intent.getStringExtra("nik") ?: ""
@@ -34,12 +35,12 @@ class EditActivity : AppCompatActivity(), EditContract.View {
         mPresenter.mode(nik, binding.nikInputTIL)
 
         binding.simpanUpdateBtn.setOnClickListener {
-            onRadioButtonClick(binding.root)
+
             if (binding.simpanUpdateBtn.text.toString() == "Simpan") {
                 bio.nik = binding.nikInputTIL.editText?.text.toString()
                 bio.name = binding.nameInputTIL.editText?.text.toString()
                 bio.job = binding.jobInputTIL.editText?.text.toString()
-                bio.sex = jekel
+                bio.sex = getRadioButtun()
 
                 mPresenter.add(bio)
 
@@ -47,74 +48,82 @@ class EditActivity : AppCompatActivity(), EditContract.View {
                 bio.nik = binding.nikInputTIL.editText?.text.toString()
                 bio.name = binding.nameInputTIL.editText?.text.toString()
                 bio.job = binding.jobInputTIL.editText?.text.toString()
-                bio.sex = jekel
+                bio.sex = getRadioButtun()
 
                 mPresenter.update(bio)
 
-                Log.d("update", "${bio.job.toString()} ${bio.name.toString()} ${bio.sex.toString()} ${bio.nik.toString()} ")
             }
 
         }
 
         binding.deleteBtn.setOnClickListener {
-            onRadioButtonClick(binding.root)
+
 
             bio.nik = binding.nikInputTIL.editText?.text.toString()
             bio.name = binding.nameInputTIL.editText?.text.toString()
             bio.job = binding.jobInputTIL.editText?.text.toString()
-            bio.sex = jekel
+            bio.sex = binding.jobInputTIL.editText?.text.toString()
+//                onRadioButtonClick(binding.root)
 
             mPresenter.delete(bio)
-
-            Log.d("update", "${bio.job.toString()} ${bio.name.toString()} ${bio.sex.toString()} ${bio.nik.toString()} ")
-
         }
 
     }
 
 
-    override fun changeMode(status: String) {
-            binding.simpanUpdateBtn.text = resources.getString(R.string.update)
-            binding.deleteBtn.visibility = View.VISIBLE
-    }
+    override fun changeMode(status: String, bio: Biodata) {
+        binding.simpanUpdateBtn.text = resources.getString(R.string.update)
+        binding.deleteBtn.visibility = View.VISIBLE
 
-    override fun biodataPerson(bio: Biodata) {
         binding.nikInputTIL.editText?.setText(bio.nik)
         binding.nameInputTIL.editText?.setText(bio.name)
         binding.jobInputTIL.editText?.setText(bio.job)
         binding.nikInputTIL.isEnabled = false
 
-        Log.d("laki", "${bio.sex} ${binding.sexManRB.text.toString()}")
-        Log.d("perem", "${bio.sex} ${binding.sexGirlRB.text.toString()}")
+        Log.d("sex2", bio.sex.toString())
 
         if (bio.sex == binding.sexManRB.text.toString()) {
             binding.sexManRB.isChecked = true
-        } else if (bio.sex == binding.sexGirlRB.text.toString()) {
+        } else  {
             binding.sexGirlRB.isChecked = true
-        }else{
-            binding.sexManRB.isChecked = false
-            binding.sexGirlRB.isChecked = false
-
         }
-
     }
+
+
 
     override fun showToast(message: String) {
         Toast.makeText(this@EditActivity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun finish(context: Context) {
+        startActivity(Intent(context, MainActivity::class.java))
+        finishAffinity()
     }
 
     override fun setPresenter(presenter: EditContract.Presenter) {
         mPresenter = presenter
     }
 
-    fun onRadioButtonClick(view: View) {
-        if (view is RadioButton) {
-            val checked = view.isChecked
+//    fun onRadioButtonClick(): String {
+//        if (view is RadioButton) {
+//            val checked = view.isChecked
+//
+//            when (view.id) {
+//                R.id.sexManRB -> if (checked) jekel = binding.sexManRB.text.toString()
+//                R.id.sexGirlRB -> if (checked) jekel = binding.sexGirlRB.text.toString()
+//            }
+//        }
+//        Log.e("lapar",jekel)
+//        return jekel
+//    }
 
-            when (view.id) {
-                R.id.sexManRB -> if (checked) jekel = binding.sexManRB.text.toString()
-                R.id.sexGirlRB -> if (checked) jekel = binding.sexGirlRB.text.toString()
-            }
+    fun getRadioButtun(): String{
+        val id =  binding.sexRB.checkedRadioButtonId
+        when(id){
+            R.id.sexManRB -> jekel = binding.sexManRB.text.toString()
+            R.id.sexGirlRB -> jekel = binding.sexGirlRB.text.toString()
         }
+        return  jekel
     }
+
 }

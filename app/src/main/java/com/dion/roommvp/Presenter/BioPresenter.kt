@@ -33,20 +33,20 @@ class BioPresenter(
             CoroutineScope(Dispatchers.IO).launch {
                 db.insertData(bio)
             }
+
             view.showToast("Add data sukses")
+            view.finish(context)
         }
     }
 
     override fun delete(bio: Biodata) {
-        if (bio.nik.isBlank() || bio.job.isNullOrBlank()|| bio.sex.isNullOrBlank() || bio.job.isNullOrBlank()) {
-            view.showToast("Isi data anda dengan benar")
 
-        } else {
             CoroutineScope(Dispatchers.IO).launch {
                 db.deleteData(bio)
             }
             view.showToast("Delete data sukses")
-        }
+            view.finish(context)
+
     }
 
     override fun update(bio: Biodata) {
@@ -59,18 +59,17 @@ class BioPresenter(
             }
             Log.d("sex",bio.sex.toString())
             view.showToast("Update data sukses")
+            view.finish(context)
         }
 
     }
 
-
-    override fun mode(mode: String, input: TextInputLayout) {
+    override fun mode(mode: String?, input: TextInputLayout) {
         if (mode.isNullOrBlank()) {
             input.isEnabled = true
         } else {
-            view.changeMode(mode)
-            view.biodataPerson(getBio(mode))
-//            view.showWidget()
+            view.changeMode(mode,  getBio(mode))
+//            view.biodataPerson(getBio(mode))
         }
 
     }
