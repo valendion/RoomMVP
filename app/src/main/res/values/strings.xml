@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">RoomMvp</string>
+    <string name="nik">Nik</string>
+    <string name="nama">Nama</string>
+    <string name="masukkan_nik_anda">Masukkan Nik anda …</string>
+    <string name="masukkan_nama_anda">Masukkan Nama anda …</string>
+    <string name="laki_laki">Laki-laki</string>
+    <string name="perempuan">Perempuan</string>
+    <string name="jenis_kelamin">Jenis kelamin</string>
+    <string name="masukkan_job">Masukkan pekerjaan …</string>
+    <string name="tambah">Tambah</string>
+    <string name="delete">Delete</string>
+    <string name="simpan">Simpan</string>
+    <string name="update">Update</string>
+</resources>
