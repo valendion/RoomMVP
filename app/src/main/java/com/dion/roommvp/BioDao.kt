@@ -19,4 +19,7 @@ interface BioDao {
 
     @Delete
     suspend fun deleteData(bio: Biodata)
+
+    @Query("SELECT * FROM biodata WHERE name LIKE :name")
+    suspend fun searchName(name: String): MutableList<Biodata>
 }

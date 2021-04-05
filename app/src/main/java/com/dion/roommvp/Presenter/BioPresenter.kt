@@ -1,15 +1,15 @@
 package com.dion.roommvp.Presenter
 
-import  android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.dion.roommvp.BioDB.BioDB
 import com.dion.roommvp.contract.EditContract
 import com.dion.roommvp.model.Biodata
-import com.dion.roommvp.view.EditActivity
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.*
-import java.security.AccessController.getContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class BioPresenter(
@@ -69,7 +69,6 @@ class BioPresenter(
             input.isEnabled = true
         } else {
             view.changeMode(mode,  getBio(mode))
-//            view.biodataPerson(getBio(mode))
         }
 
     }

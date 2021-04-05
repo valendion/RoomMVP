@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.RadioButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dion.roommvp.Presenter.BioPresenter
@@ -18,7 +17,6 @@ class EditActivity : AppCompatActivity(), EditContract.View {
 
     lateinit var binding: ActivityEditBinding
     lateinit var mPresenter: EditContract.Presenter
-    var dataList: ArrayList<Biodata> = arrayListOf()
      var jekel =""
     var bio = Biodata()
     val nik by lazy {
@@ -37,35 +35,35 @@ class EditActivity : AppCompatActivity(), EditContract.View {
         binding.simpanUpdateBtn.setOnClickListener {
 
             if (binding.simpanUpdateBtn.text.toString() == "Simpan") {
-                bio.nik = binding.nikInputTIL.editText?.text.toString()
-                bio.name = binding.nameInputTIL.editText?.text.toString()
-                bio.job = binding.jobInputTIL.editText?.text.toString()
-                bio.sex = getRadioButtun()
+                bio.let {
+                    it.nik = binding.nikInputTIL.editText?.text.toString()
+                    it.name = binding.nameInputTIL.editText?.text.toString()
+                    it.job = binding.jobInputTIL.editText?.text.toString()
+                    it.sex = getRadioButtun()
+                    mPresenter.add(it)
+                }
 
-                mPresenter.add(bio)
 
             } else if(binding.simpanUpdateBtn.text.toString() == "Update") {
-                bio.nik = binding.nikInputTIL.editText?.text.toString()
-                bio.name = binding.nameInputTIL.editText?.text.toString()
-                bio.job = binding.jobInputTIL.editText?.text.toString()
-                bio.sex = getRadioButtun()
-
-                mPresenter.update(bio)
-
+                bio.let {
+                    it.nik = binding.nikInputTIL.editText?.text.toString()
+                    it.name = binding.nameInputTIL.editText?.text.toString()
+                    it.job = binding.jobInputTIL.editText?.text.toString()
+                    it.sex = getRadioButtun()
+                    mPresenter.update(it)
+                }
             }
 
         }
 
         binding.deleteBtn.setOnClickListener {
-
-
-            bio.nik = binding.nikInputTIL.editText?.text.toString()
-            bio.name = binding.nameInputTIL.editText?.text.toString()
-            bio.job = binding.jobInputTIL.editText?.text.toString()
-            bio.sex = binding.jobInputTIL.editText?.text.toString()
-//                onRadioButtonClick(binding.root)
-
-            mPresenter.delete(bio)
+            bio.let {
+                it.nik = binding.nikInputTIL.editText?.text.toString()
+                it.name = binding.nameInputTIL.editText?.text.toString()
+                it.job = binding.jobInputTIL.editText?.text.toString()
+                it.sex = getRadioButtun()
+                mPresenter.delete(it)
+            }
         }
 
     }
@@ -104,22 +102,8 @@ class EditActivity : AppCompatActivity(), EditContract.View {
         mPresenter = presenter
     }
 
-//    fun onRadioButtonClick(): String {
-//        if (view is RadioButton) {
-//            val checked = view.isChecked
-//
-//            when (view.id) {
-//                R.id.sexManRB -> if (checked) jekel = binding.sexManRB.text.toString()
-//                R.id.sexGirlRB -> if (checked) jekel = binding.sexGirlRB.text.toString()
-//            }
-//        }
-//        Log.e("lapar",jekel)
-//        return jekel
-//    }
-
-    fun getRadioButtun(): String{
-        val id =  binding.sexRB.checkedRadioButtonId
-        when(id){
+    private fun getRadioButtun(): String{
+        when(binding.sexRB.checkedRadioButtonId){
             R.id.sexManRB -> jekel = binding.sexManRB.text.toString()
             R.id.sexGirlRB -> jekel = binding.sexGirlRB.text.toString()
         }

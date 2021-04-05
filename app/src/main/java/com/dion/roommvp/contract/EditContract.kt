@@ -18,7 +18,6 @@ interface EditContract {
 
     interface View : BaseView<Presenter> {
         fun changeMode(status: String, bio: Biodata)
-//        fun biodataPerson(bio: Biodata, )
         fun showToast(message: String)
         fun finish(context: Context)
     }

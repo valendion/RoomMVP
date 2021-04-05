@@ -19,6 +19,7 @@ class MainPresenter(
     private val db = BioDB.getInstance(context).bioDao()
     var biodata = Biodata()
     var data = mutableListOf<Biodata>()
+    var dataSearch = mutableListOf<Biodata>()
 
     override fun getAll(): MutableList<Biodata> {
         runBlocking {
@@ -26,6 +27,19 @@ class MainPresenter(
         }
 
         return data
+    }
+
+    override fun searchBioata(searchName: String): MutableList<Biodata> {
+        runBlocking {
+            dataSearch = db.searchName(searchName)
+        }
+        Log.e("cari", dataSearch.toString())
+        return dataSearch
+
+    }
+
+    override fun searchLoad() {
+        viewMain.showSearch(dataSearch)
     }
 
     override fun start() {

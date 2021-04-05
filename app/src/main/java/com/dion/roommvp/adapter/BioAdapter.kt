@@ -1,6 +1,7 @@
 package com.dion.roommvp.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,8 @@ import com.dion.roommvp.databinding.ItemBiodataBinding
 import com.dion.roommvp.model.Biodata
 import com.dion.roommvp.view.EditActivity
 
-class BioAdapter(private val dataList: MutableList<Biodata>): RecyclerView.Adapter<BioAdapter.BioViewHolder>() {
+class BioAdapter: RecyclerView.Adapter<BioAdapter.BioViewHolder>() {
+    private var dataList: MutableList<Biodata> = arrayListOf()
     inner class BioViewHolder( val binding: ItemBiodataBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(bio: Biodata){
             binding.nikTV.text = bio.nik
@@ -30,6 +32,13 @@ class BioAdapter(private val dataList: MutableList<Biodata>): RecyclerView.Adapt
 
     override fun getItemCount(): Int{
        return dataList.size
+    }
+
+    fun setValue(data: MutableList<Biodata>){
+        this.dataList.clear()
+        this.dataList.addAll(data)
+        Log.e("dataADapter", data.toString())
+        notifyDataSetChanged()
     }
 
 }
